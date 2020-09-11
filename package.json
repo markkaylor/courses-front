@@ -1,0 +1,32 @@
+{
+  "name": "nuxt-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "yarn lint:js"
+  },
+  "dependencies": {
+    "@nuxtjs/apollo": "^4.0.1-rc.3",
+    "apollo-cache-inmemory": "^1.6.6",
+    "axios": "^0.20.0",
+    "bootstrap-vue": "^2.16.0",
+    "graphql": "^15.3.0",
+    "nuxt": "^2.14.0",
+    "strapi-cli": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^3.1.0",
+    "@nuxtjs/eslint-module": "^2.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-nuxt": "^1.0.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
+  }
+}

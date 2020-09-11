@@ -1,0 +1,5 @@
+query Courses($slug: String!) {
+  courses(where: { slug: $slug }) {
+    title
+  }
+}
