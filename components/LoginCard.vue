@@ -31,7 +31,7 @@
           <b-button v-if="hasAccount" variant="primary" @click="loginUser">
             Login
           </b-button>
-          <b-button v-else variant="primary" @click="signupUser">
+          <b-button v-else variant="primary" @click="registerUser">
             Signup
           </b-button>
         </div>
@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import registerMutation from '~/apollo/mutations/user/register'
+import loginMutation from '~/apollo/mutations/user/login'
 
 export default {
   data() {
@@ -57,15 +58,24 @@ export default {
       return this.hasAccount ? 'Login' : 'Signup'
     },
   },
+  async mounted() {
+    await this.$apolloHelpers.onLogout()
+  },
   methods: {
-    async signupUser(e) {
+    async registerUser(e) {
       e.preventDefault()
+
       try {
-        await axios.post('http://localhost:1337/auth/local/register', {
+        const credentials = {
           username: this.username,
           email: this.email,
           password: this.password,
+        }
+        await this.$apollo.mutate({
+          mutation: registerMutation,
+          variables: credentials,
         })
+        this.$router.push('/courses')
       } catch (error) {
         // eslint-disable-next-line
         console.log(error)
@@ -74,12 +84,22 @@ export default {
     async loginUser(e) {
       e.preventDefault()
       try {
-        const { data } = await axios.post('http://localhost:1337/auth/local', {
+        const credentials = {
           identifier: this.email,
           password: this.password,
+        }
+
+        const {
+          data: {
+            login: { jwt },
+          },
+        } = await this.$apollo.mutate({
+          mutation: loginMutation,
+          variables: credentials,
         })
-        // eslint-disable-next-line
-        console.log(data)
+
+        await this.$apolloHelpers.onLogin(jwt)
+        this.$router.push('/courses')
       } catch (error) {
         // eslint-disable-next-line
         console.log(error)

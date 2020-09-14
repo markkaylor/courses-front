@@ -19,7 +19,9 @@
 
 <script>
 import coursesQuery from '~/apollo/queries/course/courses'
+import meQuery from '~/apollo/queries/user/me'
 export default {
+  middleware: ['authenticated'],
   data() {
     return {
       courses: [],
@@ -29,6 +31,9 @@ export default {
     courses: {
       prefetch: true,
       query: coursesQuery,
+    },
+    me: {
+      query: meQuery,
     },
   },
 }
