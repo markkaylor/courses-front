@@ -1,5 +1,8 @@
 <template>
   <div class="container-form">
+    <b-alert v-model="showAlert" variant="danger" dismissible>
+      Please login or signup first
+    </b-alert>
     <b-card :title="accountStatusTitle">
       <b-form>
         <b-form-group>
@@ -56,6 +59,9 @@ export default {
   computed: {
     accountStatusTitle() {
       return this.hasAccount ? 'Login' : 'Signup'
+    },
+    showAlert() {
+      return this.$store.state.route.forbidden
     },
   },
   async mounted() {
@@ -121,6 +127,7 @@ export default {
 .container-form {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

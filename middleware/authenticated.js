@@ -1,9 +1,10 @@
 import meQuery from '~/apollo/queries/user/me'
 
-export default async function ({ app, redirect }) {
+export default async function ({ app, redirect, store }) {
   const hasToken = !!app.$apolloHelpers.getToken()
 
   if (!hasToken) {
+    store.dispatch('setForbiddenRoute', true)
     return redirect('/')
   }
 
@@ -15,13 +16,15 @@ export default async function ({ app, redirect }) {
     })
 
     if (!Object.keys(me).length) {
+      store.dispatch('setForbiddenRoute', true)
       return redirect('/')
     }
+    store.dispatch('authorizedUser', true)
   } catch (error) {
     console.log(error)
     try {
       await app.$apolloHelpers.onLogout()
-
+      store.dispatch('setForbiddenRoute', true)
       return redirect('/')
     } catch (error) {
       console.log(error)

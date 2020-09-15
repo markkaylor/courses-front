@@ -51,6 +51,10 @@ export default {
     '@nuxtjs/eslint-module',
     'bootstrap-vue/nuxt',
   ],
+  bootstrapVue: {
+    icons: true,
+  },
+
   /*
    ** Nuxt.js modules
    */

@@ -1,5 +1,14 @@
-query Courses($slug: String!) {
-  courses(where: { slug: $slug }) {
+query Course($slug: String!) {
+  courseBySlug(slug: $slug) {
     title
+    description
+    slug
+    lessons {
+      title
+      completed
+      description
+      youtubeVideoId
+      userYoutubeVideoUrl
+    }
   }
 }

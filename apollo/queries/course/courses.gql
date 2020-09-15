@@ -1,6 +1,8 @@
 query Courses {
   courses {
+    id
     title
+    description
 		slug
     lessons {
       title

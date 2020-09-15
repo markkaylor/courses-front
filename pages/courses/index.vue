@@ -3,15 +3,24 @@
     <h1>Courses</h1>
     <div v-for="(course, index) in courses" :key="index">
       <b-card v-if="course.lessons.length">
-        <nuxt-link :to="`courses/${course.slug}`">
+        <img
+          :src="`http://img.youtube.com/vi/${course.lessons[0].youtubeVideoId}/0.jpg`"
+          alt="Course Image"
+          width="400"
+          height="315"
+        />
+        <div class="container-description">
           <h1>{{ course.title }}</h1>
-          <img
-            :src="`http://img.youtube.com/vi/${course.lessons[0].youtubeVideoId}/0.jpg`"
-            alt="Course Image"
-            width="400"
-            height="315"
-          />
-        </nuxt-link>
+          <p>{{ course.description }}</p>
+          <b-button
+            :to="{
+              name: `courses-slug`,
+              params: { slug: course.slug },
+            }"
+          >
+            Learn more
+          </b-button>
+        </div>
       </b-card>
     </div>
   </div>
@@ -39,7 +48,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;
@@ -48,5 +57,13 @@ export default {
   align-items: center;
   text-align: center;
   flex-direction: column;
+}
+
+.container-description {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem 0;
 }
 </style>
