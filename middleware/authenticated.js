@@ -1,8 +1,7 @@
 import meQuery from '~/apollo/queries/user/me'
 
 export default async function ({ app, redirect, store }) {
-  const hasToken = !!app.$apolloHelpers.getToken()
-
+  const hasToken = await !!app.$apolloHelpers.getToken()
   if (!hasToken) {
     store.dispatch('setForbiddenRoute', true)
     return redirect('/')

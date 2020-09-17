@@ -6,7 +6,7 @@ query Course($slug: String!) {
     lessons {
       title
       completed
-      description
+      content
       youtubeVideoId
       userYoutubeVideoUrl
     }

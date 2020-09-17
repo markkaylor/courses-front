@@ -1,9 +1,9 @@
-query Courses($ids: [String]) {
-  courses(where: { id_nin: $ids}) {
+query UserCourses($id: ID!) {
+  courses(where: { users: { id: $id } }) {
     id
     title
     description
-		slug
+    slug
     users {
       id
     }

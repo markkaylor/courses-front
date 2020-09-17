@@ -1,0 +1,9 @@
+mutation AddUser($id: ID!, $users: [ID]) {
+  updateCourse(input: { where: { id: $id }, data: { users: $users } }) {
+    course {
+      users {
+        id
+      }
+    }
+  }
+}

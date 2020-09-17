@@ -49,8 +49,21 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/markdownit',
     'bootstrap-vue/nuxt',
+    'nuxt-webfontloader',
   ],
+  webfontloader: {
+    google: {
+      families: ['Josefin Sans'],
+    },
+  },
+  markdownit: {
+    preset: 'default',
+    linkify: true,
+    breaks: true,
+    injected: true,
+  },
   bootstrapVue: {
     icons: true,
   },

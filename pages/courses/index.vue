@@ -1,54 +1,113 @@
 <template>
   <div class="container">
-    <h1>Courses</h1>
-    <div v-for="(course, index) in courses" :key="index">
-      <b-card v-if="course.lessons.length">
-        <img
-          :src="`http://img.youtube.com/vi/${course.lessons[0].youtubeVideoId}/0.jpg`"
-          alt="Course Image"
-          width="400"
-          height="315"
-        />
-        <div class="container-description">
-          <h1>{{ course.title }}</h1>
-          <p>{{ course.description }}</p>
-          <b-button
-            :to="{
-              name: `courses-slug`,
-              params: { slug: course.slug },
-            }"
-          >
-            Learn more
-          </b-button>
-        </div>
-      </b-card>
+    <h1>My Courses</h1>
+    <div v-if="enrolledCourses.length" class="container-courses">
+      <div v-for="(course, index) in enrolledCourses" :key="index">
+        <b-card
+          v-if="course.lessons.length"
+          class="no-border"
+          :img-src="`http://img.youtube.com/vi/${course.lessons[0].youtubeVideoId}/0.jpg`"
+        >
+          <div class="container-description">
+            <h2>{{ course.title }}</h2>
+            <p>{{ course.description }}</p>
+            <b-button
+              :to="{
+                name: `courses-slug`,
+                params: { slug: course.slug },
+              }"
+            >
+              Take Course
+            </b-button>
+          </div>
+        </b-card>
+      </div>
+    </div>
+    <div v-else>You don't have any courses yet!</div>
+    <h1>Available Courses</h1>
+    <div class="container-courses">
+      <div v-for="(course, index) in courses" :key="index">
+        <b-card
+          v-if="course.lessons.length"
+          class="no-border"
+          :img-src="`http://img.youtube.com/vi/${course.lessons[0].youtubeVideoId}/0.jpg`"
+        >
+          <div class="container-description">
+            <h2>{{ course.title }}</h2>
+            <p>{{ course.description }}</p>
+            <b-button
+              variant="primary"
+              :to="{
+                name: `courses-slug`,
+                params: { slug: course.slug },
+              }"
+              @click="addUserToCourse(course.id)"
+            >
+              Enroll in Course!
+            </b-button>
+          </div>
+        </b-card>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import coursesQuery from '~/apollo/queries/course/courses'
+import userCoursesQuery from '~/apollo/queries/course/userCourses'
 import meQuery from '~/apollo/queries/user/me'
+import addUserQuery from '~/apollo/mutations/course/addUser'
+
 export default {
   middleware: ['authenticated'],
   data() {
     return {
       courses: [],
+      enrolledCourses: [],
+      me: {},
+    }
+  },
+  async mounted() {
+    try {
+      const { data } = await this.$apollo.query({
+        query: userCoursesQuery,
+        variables: { id: this.me.id },
+      })
+      this.enrolledCourses = data.courses
+    } catch (error) {
+      // eslint-disable-next-line
+      console.log(error)
+    }
+
+    try {
+      const ids = this.enrolledCourses.map((course) => course.id)
+      const { data } = await this.$apollo.query({
+        query: coursesQuery,
+        variables: { ids },
+      })
+      this.courses = data.courses
+    } catch (error) {
+      // eslint-disable-next-line
+      console.log(error)
     }
   },
   apollo: {
-    courses: {
-      prefetch: true,
-      query: coursesQuery,
-    },
     me: {
       query: meQuery,
+    },
+  },
+  methods: {
+    async addUserToCourse(courseId) {
+      await this.$apollo.mutate({
+        mutation: addUserQuery,
+        variables: { id: courseId, users: [this.me.id] },
+      })
     },
   },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;
@@ -65,5 +124,15 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem 0;
+}
+
+.card {
+  border: none;
+  width: 300px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.container-courses {
+  display: flex;
 }
 </style>

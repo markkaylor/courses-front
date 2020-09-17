@@ -81,7 +81,7 @@ export default {
           mutation: registerMutation,
           variables: credentials,
         })
-        this.$router.push('/courses')
+        this.loginUser(e)
       } catch (error) {
         // eslint-disable-next-line
         console.log(error)
