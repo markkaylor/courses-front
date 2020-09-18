@@ -25,30 +25,33 @@
     </div>
     <div v-else>You don't have any courses yet!</div>
     <h1>Available Courses</h1>
-    <div class="container-courses">
-      <div v-for="(course, index) in courses" :key="index">
-        <b-card
-          v-if="course.lessons.length"
-          class="no-border"
-          :img-src="`http://img.youtube.com/vi/${course.lessons[0].youtubeVideoId}/0.jpg`"
-        >
-          <div class="container-description">
-            <h2>{{ course.title }}</h2>
-            <p>{{ course.description }}</p>
-            <b-button
-              variant="primary"
-              :to="{
-                name: `courses-slug`,
-                params: { slug: course.slug },
-              }"
-              @click="addUserToCourse(course)"
-            >
-              Enroll in Course!
-            </b-button>
-          </div>
-        </b-card>
+    <div v-if="courses.length">
+      <div class="container-courses">
+        <div v-for="(course, index) in courses" :key="index">
+          <b-card
+            v-if="course.lessons.length"
+            class="no-border"
+            :img-src="`http://img.youtube.com/vi/${course.lessons[0].youtubeVideoId}/0.jpg`"
+          >
+            <div class="container-description">
+              <h2>{{ course.title }}</h2>
+              <p>{{ course.description }}</p>
+              <b-button
+                variant="primary"
+                :to="{
+                  name: `courses-slug`,
+                  params: { slug: course.slug },
+                }"
+                @click="addUserToCourse(course)"
+              >
+                Enroll in Course!
+              </b-button>
+            </div>
+          </b-card>
+        </div>
       </div>
     </div>
+    <div v-else>Someone needs to make some more courses...</div>
   </div>
 </template>
 
