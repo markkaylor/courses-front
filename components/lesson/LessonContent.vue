@@ -2,13 +2,11 @@
   <div class="container-lesson">
     <h1>{{ lesson.title }}</h1>
     <div class="container-lesson-content" v-html="$md.render(lesson.content)" />
-    <div
-      v-if="lesson.completed_lesson && lesson.completed_lesson.userYoutubeVideo"
-    >
+    <div v-if="completedLesson && completedLesson.userYoutubeVideo">
       <h2>Nice! You've completed this lesson</h2>
       <p>Check out your progress!</p>
 
-      <UserVideoPlayer :url="lesson.userYoutubeVideoUrl" />
+      <UserVideoPlayer :url="completedLesson.userYoutubeVideo" />
     </div>
     <div v-else class="container-user-upload">
       <h2>To complete this lesson</h2>
@@ -36,6 +34,10 @@ export default {
     lesson: {
       type: Object,
       required: true,
+    },
+    completedLesson: {
+      type: Object,
+      default: null,
     },
     courseId: {
       type: String,

@@ -41,7 +41,7 @@
                 name: `courses-slug`,
                 params: { slug: course.slug },
               }"
-              @click="addUserToCourse(course.id)"
+              @click="addUserToCourse(course)"
             >
               Enroll in Course!
             </b-button>
@@ -97,10 +97,11 @@ export default {
     },
   },
   methods: {
-    async addUserToCourse(courseId) {
+    async addUserToCourse(course) {
+      const ids = course.users.map((user) => user.id)
       await this.$apollo.mutate({
         mutation: addUserQuery,
-        variables: { id: courseId, users: [this.me.id] },
+        variables: { id: course.id, users: [...ids, this.me.id] },
       })
     },
   },
@@ -134,5 +135,8 @@ export default {
 
 .container-courses {
   display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 </style>

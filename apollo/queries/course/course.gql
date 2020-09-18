@@ -1,4 +1,4 @@
-query Course($slug: String!) {
+query Course($slug: String!, $id: ID) {
   courseBySlug(slug: $slug) {
     id
     title
@@ -14,6 +14,12 @@ query Course($slug: String!) {
       completed_lesson {
         userYoutubeVideo
       }
+    }
+    completed_lessons(where: { user: $id }) {
+      lesson {
+        id
+      }
+      userYoutubeVideo
     }
   }
 }

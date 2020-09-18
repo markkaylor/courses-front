@@ -4,6 +4,7 @@
       <LessonPlayer :url="currentLesson.youtubeVideoId" />
       <LessonContent
         :lesson="currentLesson"
+        :completed-lesson="completedLesson"
         :course-id="course.id"
         :user-id="me.id"
       />
@@ -11,6 +12,7 @@
     <b-col cols="4">
       <LessonList
         :lessons="course.lessons"
+        :completed-lessons="course.completed_lessons"
         :current-lesson="currentLesson"
         @change-lesson="changeLesson"
       />
@@ -44,18 +46,23 @@ export default {
       const { data } = await this.$apollo.query({
         prefetch: true,
         query: courseQuery,
-        variables: { slug: this.$route.params.slug },
+        variables: { slug: this.$route.params.slug, id: this.me.id },
       })
       this.course = data.courseBySlug
 
-      const lesson =
-        this.course &&
-        this.course.lessons.find((lesson) => lesson.completed_lesson === null)
-
-      this.currentLesson = lesson
+      // TODO: return first lesson that is not in array of completed lesson
+      this.currentLesson = this.course.lessons[0]
     } catch (error) {
       console.log(error)
     }
+  },
+  computed: {
+    completedLesson() {
+      if (!this.course.completed_lessons) return false
+      return this.course.completed_lessons.find(
+        (completedLesson) => completedLesson.lesson.id === this.currentLesson.id
+      )
+    },
   },
   methods: {
     changeLesson(lesson) {

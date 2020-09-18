@@ -13,7 +13,9 @@
     >
       <span
         class="container-check"
-        :class="lesson.completed_lesson ? 'item-complete' : 'item-incomplete'"
+        :class="
+          isCompletedLesson(lesson.id) ? 'item-complete' : 'item-incomplete'
+        "
       >
         <b-icon icon="check" aria-hidden="true" />
       </span>
@@ -32,6 +34,18 @@ export default {
     currentLesson: {
       type: Object,
       required: true,
+    },
+    completedLessons: {
+      type: Array,
+      default: null,
+    },
+  },
+  methods: {
+    isCompletedLesson(id) {
+      if (!this.completedLessons) return false
+      return this.completedLessons.find(
+        (completedLesson) => completedLesson.lesson.id === id
+      )
     },
   },
 }
