@@ -2,7 +2,11 @@
   <b-container v-if="course.lessons" class="shadow rounded container-course">
     <b-col cols="8" class="container-course-lesson">
       <LessonPlayer :url="currentLesson.youtubeVideoId" />
-      <LessonContent :lesson="currentLesson" />
+      <LessonContent
+        :lesson="currentLesson"
+        :course-id="course.id"
+        :user-id="me.id"
+      />
     </b-col>
     <b-col cols="4">
       <LessonList
@@ -46,7 +50,7 @@ export default {
 
       const lesson =
         this.course &&
-        this.course.lessons.find((lesson) => lesson.completed === false)
+        this.course.lessons.find((lesson) => lesson.completed_lesson === null)
 
       this.currentLesson = lesson
     } catch (error) {

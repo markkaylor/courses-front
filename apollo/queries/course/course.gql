@@ -1,14 +1,19 @@
 query Course($slug: String!) {
   courseBySlug(slug: $slug) {
+    id
     title
     description
     slug
     lessons {
+      id
       title
       completed
       content
       youtubeVideoId
       userYoutubeVideoUrl
+      completed_lesson {
+        userYoutubeVideo
+      }
     }
   }
 }

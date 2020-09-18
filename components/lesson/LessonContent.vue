@@ -2,8 +2,9 @@
   <div class="container-lesson">
     <h1>{{ lesson.title }}</h1>
     <div class="container-lesson-content" v-html="$md.render(lesson.content)" />
-
-    <div v-if="lesson.completed && lesson.userYoutubeVideoUrl">
+    <div
+      v-if="lesson.completed_lesson && lesson.completed_lesson.userYoutubeVideo"
+    >
       <h2>Nice! You've completed this lesson</h2>
       <p>Check out your progress!</p>
 
@@ -13,8 +14,11 @@
       <h2>To complete this lesson</h2>
       <p>Send proof that you're practicing!</p>
       <div class="container-upload-form">
-        <b-input placeholder="https://www.youtube.com/embed/video-id" />
-        <b-btn variant="primary">Submit</b-btn>
+        <b-input
+          v-model="userYoutubeVideo"
+          placeholder="https://www.youtube.com/embed/video-id"
+        />
+        <b-btn variant="primary" @click="completeLesson">Submit</b-btn>
       </div>
     </div>
   </div>
@@ -22,6 +26,7 @@
 
 <script>
 import UserVideoPlayer from '~/components/lesson/LessonPlayer'
+import completeLessonQuery from '~/apollo/mutations/lesson/completeLesson'
 
 export default {
   components: {
@@ -31,6 +36,49 @@ export default {
     lesson: {
       type: Object,
       required: true,
+    },
+    courseId: {
+      type: String,
+      required: true,
+    },
+    userId: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      userYoutubeVideo: '',
+      lessonCompleted: false,
+    }
+  },
+  async mounted() {
+    // query completed lesson
+  },
+  methods: {
+    async completeLesson(e) {
+      e.preventDefault()
+      console.log({
+        userYoutubeVideo: this.userYoutubeVideo,
+        course: this.courseId,
+        user: this.userId,
+        lesson: this.lesson.id,
+      })
+      try {
+        await this.$apollo.mutate({
+          mutation: completeLessonQuery,
+          variables: {
+            userYoutubeVideo: this.userYoutubeVideo,
+            course: this.courseId,
+            user: this.userId,
+            lesson: this.lesson.id,
+          },
+        })
+        this.lessonCompleted = true
+      } catch (error) {
+        // eslint-disable-next-line
+        console.log(error)
+      }
     },
   },
 }

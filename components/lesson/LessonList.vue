@@ -13,7 +13,7 @@
     >
       <span
         class="container-check"
-        :class="lesson.completed ? 'item-complete' : 'item-incomplete'"
+        :class="lesson.completed_lesson ? 'item-complete' : 'item-incomplete'"
       >
         <b-icon icon="check" aria-hidden="true" />
       </span>

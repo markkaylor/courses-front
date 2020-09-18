@@ -8,6 +8,7 @@ query Courses($ids: [String]) {
       id
     }
     lessons {
+      id
       title
       youtubeVideoId
     }

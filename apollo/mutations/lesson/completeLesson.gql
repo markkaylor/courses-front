@@ -1,0 +1,17 @@
+mutation completeLesson($userYoutubeVideo: String, $user: ID, $course: ID, $lesson: ID) {
+  createCompletedLesson(input: { 
+  	data: {
+			userYoutubeVideo: $userYoutubeVideo, 
+      user: $user, 
+      course: $course, 
+      lesson: $lesson 
+    }
+	}) {
+    completedLesson {
+      userYoutubeVideo
+      lesson {
+				id
+      }
+    }
+  }
+}
