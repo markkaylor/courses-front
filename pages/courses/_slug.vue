@@ -7,6 +7,7 @@
         :completed-lesson="completedLesson"
         :course-id="course.id"
         :user-id="me.id"
+        @update-completed-lesson="updateCompletedLesson"
       />
     </b-col>
     <b-col cols="4">
@@ -44,14 +45,11 @@ export default {
   async mounted() {
     try {
       const { data } = await this.$apollo.query({
-        prefetch: true,
         query: courseQuery,
         variables: { slug: this.$route.params.slug, id: this.me.id },
       })
       this.course = data.courseBySlug
-
-      // TODO: return first lesson that is not in array of completed lesson
-      this.currentLesson = this.course.lessons[0]
+      this.setCurrentCourse()
     } catch (error) {
       console.log(error)
     }
@@ -67,6 +65,19 @@ export default {
   methods: {
     changeLesson(lesson) {
       this.currentLesson = lesson
+    },
+    setCurrentCourse() {
+      const lessonsToComplete = this.course.lessons.filter(
+        (lesson) =>
+          !this.course.completed_lessons.find(
+            (completedLesson) => lesson.id === completedLesson.lesson.id
+          )
+      )
+      this.currentLesson = lessonsToComplete[0] || this.course.lessons[0]
+    },
+    updateCompletedLesson(completedLesson) {
+      this.course.completed_lessons.push(completedLesson)
+      this.setCurrentCourse()
     },
   },
   apollo: {

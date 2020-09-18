@@ -51,23 +51,17 @@ export default {
   data() {
     return {
       userYoutubeVideo: '',
-      lessonCompleted: false,
     }
-  },
-  async mounted() {
-    // query completed lesson
   },
   methods: {
     async completeLesson(e) {
       e.preventDefault()
-      console.log({
-        userYoutubeVideo: this.userYoutubeVideo,
-        course: this.courseId,
-        user: this.userId,
-        lesson: this.lesson.id,
-      })
       try {
-        await this.$apollo.mutate({
+        const {
+          data: {
+            createCompletedLesson: { completedLesson },
+          },
+        } = await this.$apollo.mutate({
           mutation: completeLessonQuery,
           variables: {
             userYoutubeVideo: this.userYoutubeVideo,
@@ -76,7 +70,8 @@ export default {
             lesson: this.lesson.id,
           },
         })
-        this.lessonCompleted = true
+
+        this.$emit('update-completed-lesson', completedLesson)
       } catch (error) {
         // eslint-disable-next-line
         console.log(error)
