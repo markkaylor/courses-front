@@ -42,6 +42,14 @@ export default {
       currentLesson: null,
     }
   },
+  computed: {
+    completedLesson() {
+      if (!this.course.completed_lessons) return false
+      return this.course.completed_lessons.find(
+        (completedLesson) => completedLesson.lesson.id === this.currentLesson.id
+      )
+    },
+  },
   async mounted() {
     try {
       const { data } = await this.$apollo.query({
@@ -51,16 +59,8 @@ export default {
       this.course = data.courseBySlug
       this.setCurrentCourse()
     } catch (error) {
-      console.log(error)
+      throw new Error(error)(error)
     }
-  },
-  computed: {
-    completedLesson() {
-      if (!this.course.completed_lessons) return false
-      return this.course.completed_lessons.find(
-        (completedLesson) => completedLesson.lesson.id === this.currentLesson.id
-      )
-    },
   },
   methods: {
     changeLesson(lesson) {

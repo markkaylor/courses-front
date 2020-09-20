@@ -7,10 +7,8 @@ query Course($slug: String!, $id: ID) {
     lessons {
       id
       title
-      completed
       content
       youtubeVideoId
-      userYoutubeVideoUrl
     }
     completed_lessons(where: { user: $id }) {
       lesson {

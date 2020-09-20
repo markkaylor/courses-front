@@ -20,13 +20,12 @@ export default async function ({ app, redirect, store }) {
     }
     store.dispatch('authorizedUser', true)
   } catch (error) {
-    console.log(error)
     try {
       await app.$apolloHelpers.onLogout()
       store.dispatch('setForbiddenRoute', true)
       return redirect('/')
     } catch (error) {
-      console.log(error)
+      throw new Error(error)
     }
   }
 }

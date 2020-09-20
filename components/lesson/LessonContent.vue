@@ -73,8 +73,7 @@ export default {
 
         this.$emit('update-completed-lesson', completedLesson)
       } catch (error) {
-        // eslint-disable-next-line
-        console.log(error)
+        throw new Error(error)
       }
     },
   },

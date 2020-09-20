@@ -83,8 +83,7 @@ export default {
         })
         this.loginUser(e)
       } catch (error) {
-        // eslint-disable-next-line
-        console.log(error)
+        throw new Error(error)(error)
       }
     },
     async loginUser(e) {
@@ -107,8 +106,7 @@ export default {
         await this.$apolloHelpers.onLogin(jwt)
         this.$router.push('/courses')
       } catch (error) {
-        // eslint-disable-next-line
-        console.log(error)
+        throw new Error(error)(error)
       }
     },
     toggleHasAccount() {
