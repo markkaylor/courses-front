@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <b-container class="container">
     <h1>My Courses</h1>
     <CourseList
       v-if="enrolledCourses.length"
@@ -11,7 +11,7 @@
     <h1>Available Courses</h1>
     <CourseList v-if="courses.length" :courses="courses" :user-id="me.id" />
     <div v-else>Someone needs to make some courses</div>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -66,6 +66,7 @@ export default {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
+  padding-top: 4rem;
   min-height: 100vh;
   display: flex;
   justify-content: center;

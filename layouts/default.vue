@@ -23,14 +23,4 @@ body {
   box-sizing: border-box;
   margin: 0;
 }
-
-h1 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
 </style>

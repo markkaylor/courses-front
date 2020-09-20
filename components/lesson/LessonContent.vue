@@ -1,6 +1,7 @@
 <template>
   <div class="container-lesson">
     <h1>{{ lesson.title }}</h1>
+    <!-- eslint-disable-next-line -->
     <div class="container-lesson-content" v-html="$md.render(lesson.content)" />
     <div v-if="completedLesson && completedLesson.userYoutubeVideo">
       <h2>Nice! You've completed this lesson</h2>
@@ -82,6 +83,11 @@ export default {
 
 <style lang="scss" scoped>
 .container-lesson {
+  h1 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
   margin-top: 2rem;
 }
 
@@ -90,6 +96,8 @@ export default {
 }
 
 .container-upload-form {
+  margin-bottom: 2rem;
+
   button {
     margin-left: 1rem;
   }

@@ -42,10 +42,13 @@ export default {
   },
   methods: {
     isCompletedLesson(id) {
-      if (!this.completedLessons) return false
-      return this.completedLessons.find(
-        (completedLesson) => completedLesson.lesson.id === id
-      )
+      if (this.completedLessons) {
+        return this.completedLessons.find(
+          (completedLesson) => completedLesson.lesson.id === id
+        )
+      } else {
+        return false
+      }
     },
   },
 }

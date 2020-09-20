@@ -1,23 +1,25 @@
 <template>
   <b-container v-if="course.lessons" class="shadow rounded container-course">
-    <b-col cols="8" class="container-course-lesson">
-      <LessonPlayer :url="currentLesson.youtubeVideoId" />
-      <LessonContent
-        :lesson="currentLesson"
-        :completed-lesson="completedLesson"
-        :course-id="course.id"
-        :user-id="me.id"
-        @update-completed-lesson="updateCompletedLesson"
-      />
-    </b-col>
-    <b-col cols="4">
-      <LessonList
-        :lessons="course.lessons"
-        :completed-lessons="course.completed_lessons"
-        :current-lesson="currentLesson"
-        @change-lesson="changeLesson"
-      />
-    </b-col>
+    <b-row class="container-course-lesson">
+      <b-col sm="12" lg="8">
+        <LessonPlayer :url="currentLesson.youtubeVideoId" />
+        <LessonContent
+          :lesson="currentLesson"
+          :completed-lesson="completedLesson"
+          :course-id="course.id"
+          :user-id="me.id"
+          @update-completed-lesson="updateCompletedLesson"
+        />
+      </b-col>
+      <b-col sm="12" lg="4">
+        <LessonList
+          :lessons="course.lessons"
+          :completed-lessons="course.completed_lessons"
+          :current-lesson="currentLesson"
+          @change-lesson="changeLesson"
+        />
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -95,5 +97,9 @@ export default {
   margin-bottom: 2rem;
   width: 100%;
   padding: 4rem;
+}
+
+.container-course-lesson {
+  width: 100%;
 }
 </style>
