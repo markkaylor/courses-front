@@ -61,7 +61,8 @@ export default {
       this.course = data.courseBySlug
       this.setCurrentCourse()
     } catch (error) {
-      throw new Error(error)(error)
+      // eslint-disable-next-line
+      console.error(error)
     }
   },
   methods: {

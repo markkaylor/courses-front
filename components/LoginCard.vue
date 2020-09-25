@@ -1,7 +1,7 @@
 <template>
   <div class="container-form">
-    <b-alert v-model="showAlert" variant="danger" dismissible>
-      Please login or signup first
+    <b-alert v-model="alert.show" variant="danger" dismissible>
+      {{ alert.message }}
     </b-alert>
     <b-card :title="accountStatusTitle">
       <b-form>
@@ -54,14 +54,15 @@ export default {
       username: '',
       email: '',
       password: '',
+      alert: {
+        show: this.$store.state.route.forbidden,
+        message: 'Please login or sign up first',
+      },
     }
   },
   computed: {
     accountStatusTitle() {
       return this.hasAccount ? 'Login' : 'Signup'
-    },
-    showAlert() {
-      return this.$store.state.route.forbidden
     },
   },
   async mounted() {
@@ -83,7 +84,10 @@ export default {
         })
         this.loginUser(e)
       } catch (error) {
-        throw new Error(error)(error)
+        this.alert.show = true
+        this.alert.message = 'Woah, something went wrong'
+        // eslint-disable-next-line
+        console.error(error)
       }
     },
     async loginUser(e) {
@@ -106,7 +110,10 @@ export default {
         await this.$apolloHelpers.onLogin(jwt)
         this.$router.push('/courses')
       } catch (error) {
-        throw new Error(error)(error)
+        this.alert.show = true
+        this.alert.message = 'Woah, something went wrong'
+        // eslint-disable-next-line
+        console.error(error)
       }
     },
     toggleHasAccount() {

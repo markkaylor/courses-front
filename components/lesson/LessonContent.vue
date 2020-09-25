@@ -74,7 +74,8 @@ export default {
 
         this.$emit('update-completed-lesson', completedLesson)
       } catch (error) {
-        throw new Error(error)
+        // eslint-disable-next-line
+        console.error(error)
       }
     },
   },

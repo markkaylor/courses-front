@@ -41,7 +41,8 @@ export default {
       })
       this.enrolledCourses = data.courses
     } catch (error) {
-      throw new Error(error)
+      // eslint-disable-next-line
+      console.error(error)
     }
 
     try {
@@ -52,7 +53,8 @@ export default {
       })
       this.courses = data.courses
     } catch (error) {
-      throw new Error(error)
+      // eslint-disable-next-line
+      console.error(error)
     }
   },
   apollo: {

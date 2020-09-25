@@ -25,7 +25,10 @@ export default async function ({ app, redirect, store }) {
       store.dispatch('setForbiddenRoute', true)
       return redirect('/')
     } catch (error) {
-      throw new Error(error)
+      // eslint-disable-next-line
+      console.error(error)
     }
+    // eslint-disable-next-line
+    console.error(error)
   }
 }
