@@ -1,6 +1,12 @@
-# nuxt-frontend
+# Courses Front
+
+A simple course style website built with Nuxt, consuming a Strapi GraphQL API
 
 ## Build Setup
+
+Follow the Strapi backend setup found here:
+
+https://github.com/markkaylor/courses-back
 
 ```bash
 # install dependencies
@@ -16,5 +22,3 @@ $ yarn start
 # generate static project
 $ yarn generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
